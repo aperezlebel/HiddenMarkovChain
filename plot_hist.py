@@ -19,7 +19,7 @@ def plot_hist(fichier):
     x = mu + sigma * np.random.randn(10000)
     n, bins, patches = plt.hist(X, 29, density=True, facecolor='g')
     plt.plot(bins, 1/(sigma * np.sqrt(2 * np.pi)) * np.exp( - (bins - mu)**2 / (2 * sigma**2) ), linewidth=2, color='r')
-    bins = bins/1000
+
     plt.ylabel('Probability')
     plt.title('Histogram')
     plt.grid(True)
