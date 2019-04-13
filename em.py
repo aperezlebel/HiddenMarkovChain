@@ -7,10 +7,16 @@ s2=np.array([1./10000, 1./10000])
 
 file = open('crabe.txt')
 
-y=.580+.002+.004*np.array(range(29))
+y=.582+.004*np.array(range(29))
+print('\ny :\n{}'.format(y))
 N = len(y)
 N_iter=1000
 theta=np.zeros((5, N+1))
+
+print('\npi :\n{}'.format(pi0))
+print('mu :\n{}'.format(mu))
+print('s2 :\n{}\n'.format(s2))
+
 
 def normale(y, m, s2):
     return np.exp(-(y-m)**2/(2*s2))/np.sqrt(2*np.pi*s2)
@@ -62,6 +68,7 @@ def compute_s2_star(pi, mu, s2, mu_star):
 
     return s2_star
 
+print('\nIteration (out of {}) :'.format(N_iter))
 for k in range(N_iter):
     pi_star = compute_pi_star(pi, mu, s2)
     mu_star = compute_mu_star(pi, mu, s2)
@@ -70,9 +77,10 @@ for k in range(N_iter):
     pi = pi_star
     mu = mu_star
     s2 = s2_star
-    
-    print(k)
 
-print('\nPi :\n{}'.format(pi_star))
-print('\nMu :\n{}'.format(mu_star))
-print('\nS2 :\n{}\n'.format(s2_star))
+    if (k+1) % 100 == 0:
+        print('\t'+str(k+1))
+
+print('\npi :\n{}'.format(pi_star))
+print('mu :\n{}'.format(mu_star))
+print('s2 :\n{}\n'.format(s2_star))
