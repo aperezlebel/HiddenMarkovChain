@@ -26,9 +26,7 @@ def compute_mu_star(y, pi, mu, s2):
     mu_star = np.zeros(n)
     for i in range(n):
         rho_y = rho(y, i, pi, mu, s2)
-        sum1 = np.vdot(rho_y, y)
-        sum2 = np.sum(rho_y)
-        mu_star[i] = sum1/sum2
+        mu_star[i] = np.vdot(rho_y, y)/np.sum(rho_y)
 
     return mu_star
 
@@ -37,15 +35,12 @@ def compute_s2_star(y, pi, mu, s2, mu_star):
     s2_star = np.zeros(n)
     for i in range(n):
         rho_y = rho(y, i, pi, mu, s2)
-        sum1 = np.vdot(rho_y, (y-mu_star[i])**2)
-        sum2 = np.sum(rho_y)
-        s2_star[i] = sum1/sum2
+        s2_star[i] = np.vdot(rho_y, (y-mu_star[i])**2)/np.sum(rho_y)
 
     return s2_star
 
 def em():
-    pi0=np.array([1./4, 3./4])
-    pi=pi0
+    pi=np.array([1./4, 3./4])
     mu=np.array([.57, .67])
     s2=np.array([1./10000, 1./10000])
 
@@ -56,9 +51,9 @@ def em():
     N_iter=10000
     theta=np.zeros((5, N+1))
 
-    print('\npi :\n{}'.format(pi0))
-    print('mu :\n{}'.format(mu))
-    print('s2 :\n{}\n'.format(s2))
+    print('\npi0 :\n{}'.format(pi))
+    print('mu0 :\n{}'.format(mu))
+    print('s20 :\n{}\n'.format(s2))
 
     print('\nIteration (out of {}) :'.format(N_iter))
     for k in range(N_iter):
