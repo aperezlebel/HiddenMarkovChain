@@ -24,20 +24,25 @@ def plot_hist(fichier, Mu = [], S2 = [], Pi = []):
         mu : gaussian's mean
         s2 : squared std
     '''
-    X = read_y(fichier)
+    y = read_y(fichier)
 
-    k2, p = stats.normaltest(X)
+    k2, p = stats.normaltest(y)
     print("Test du Chi2 : Statistic=" + str(k2) + ", p-value=" + str(p))
 
-    (mu, sigma) = stats.norm.fit(X)
-    n, bins, patches = plt.hist(X, 29, density=True, facecolor='g')
+    (mu, sigma) = stats.norm.fit(y)
+    n, bins, patches = plt.hist(y, 29, density=True, facecolor='g')
 
+    X = np.linspace(bins[0], bins[-1], 100)
     v_gaussian = np.vectorize(gaussian)
-    plt.plot(bins, v_gaussian(bins, mu, sigma**2), linewidth=2, color='r')
+    plt.plot(X, v_gaussian(X, mu, sigma**2), linewidth=2, color='r')
 
     assert(len(Mu) == len(S2) and len(Mu) == len(Pi))
+    gaussians = []
     for i in range(len(Mu)):
-        plt.plot(bins, v_gaussian(bins, Mu[i], S2[i], Pi[i]))
+        gaussians.append(v_gaussian(X, Mu[i], S2[i], Pi[i]))
+        plt.plot(X, gaussians[-1])
+
+    plt.plot(X, np.sum(gaussians, axis=0))
 
     plt.ylabel('Probability')
     plt.title('Histogram')
