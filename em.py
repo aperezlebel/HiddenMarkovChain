@@ -48,7 +48,7 @@ def em():
 
     print('\ny :\n{}'.format(y))
     N = len(y)
-    N_iter=10000
+    N_iter=1000
     theta=np.zeros((5, N+1))
 
     print('\npi0 :\n{}'.format(pi))
