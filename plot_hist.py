@@ -42,7 +42,8 @@ def plot_hist(fichier, Mu = [], S2 = [], Pi = []):
         gaussians.append(v_gaussian(X, Mu[i], S2[i], Pi[i]))
         plt.plot(X, gaussians[-1], label='Gaussian population '+str(i+1))
 
-    plt.plot(X, np.sum(gaussians, axis=0), label='Sum of all gaussians', linewidth=2, color='b')
+    if len(gaussians) > 0:
+        plt.plot(X, np.sum(gaussians, axis=0), label='Sum of all gaussians', linewidth=2, color='b')
 
     plt.ylabel('Probability')
     plt.title('Histogram')
