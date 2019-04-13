@@ -2,8 +2,8 @@ from matplotlib import pyplot as plt
 from scipy import stats, signal
 import numpy as np
 
-def gaussian(y, mu, s2):
-    return np.exp(-(y-mu)**2/(2*s2))/np.sqrt(2*np.pi*s2)
+def gaussian(y, mu, s2, pi=1):
+    return pi*np.exp(-(y-mu)**2/(2*s2))/np.sqrt(2*np.pi*s2)
 
 def read_y(file_name):
     data_crabe = open(file_name)
@@ -17,7 +17,7 @@ def read_y(file_name):
 
     return np.array(y)
 
-def plot_hist(fichier, Mu = [], S2 = []):
+def plot_hist(fichier, Mu = [], S2 = [], Pi = []):
     '''
         Plot the data law, its gaussian approximation and
         plot as many gaussian as (mu, s2) in Mu and S2 where
@@ -35,9 +35,9 @@ def plot_hist(fichier, Mu = [], S2 = []):
     v_gaussian = np.vectorize(gaussian)
     plt.plot(bins, v_gaussian(bins, mu, sigma**2), linewidth=2, color='r')
 
-    assert(len(Mu) == len(S2))
+    assert(len(Mu) == len(S2) and len(Mu) == len(Pi))
     for i in range(len(Mu)):
-        plt.plot(bins, v_gaussian(bins, Mu[i], S2[i]))
+        plt.plot(bins, v_gaussian(bins, Mu[i], S2[i], Pi[i]))
 
     plt.ylabel('Probability')
     plt.title('Histogram')
