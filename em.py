@@ -7,14 +7,7 @@ s2=np.array([1./10000, 1./10000])
 
 file = open('crabe.txt')
 
-# y = np.empty(0)
-#
-# for line in file:
-#     y = np.append(y, int(line.strip('\n')))
-
-# y = y/np.sum(y)
 y=.580+.002+.004*np.array(range(29))
-# print(y)
 N = len(y)
 N_iter=1000
 theta=np.zeros((5, N+1))
@@ -36,14 +29,10 @@ def compute_pi_star(pi, mu, s2):
     pi_star = np.zeros(n)
     for i in range(n):
         for k in range(N):
-            # print(y[k])
-            # print(normale(y[k], mu[i], s2[i]))
             pi_star[i] += rho(i, y[k], pi, mu, s2)
         pi_star[i] /= N
 
     return pi_star
-
-# print(normale(1, 2, 3))
 
 def compute_mu_star(pi, mu, s2):
     n = len(pi)
@@ -77,13 +66,12 @@ for k in range(N_iter):
     pi_star = compute_pi_star(pi, mu, s2)
     mu_star = compute_mu_star(pi, mu, s2)
     s2_star = compute_s2_star(pi, mu, s2, mu_star)
-    # print(pi_star)
-    # print(mu_star)
-    # print(s2_star)
-    print(k)
+
     pi = pi_star
     mu = mu_star
     s2 = s2_star
+    
+    print(k)
 
 print('\nPi :\n{}'.format(pi_star))
 print('\nMu :\n{}'.format(mu_star))
