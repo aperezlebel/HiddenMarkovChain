@@ -12,16 +12,10 @@ def f_theta(y, pi, mu, s2):
 def rho(y, i, pi, mu, s2):
     return pi[i]*normale(y, mu[i], s2[i])/f_theta(y, pi, mu, s2)
 
-# v_rho = np.vectorize(rho, excluded=['i', 'pi', 'mu', 's2'])
-
 def compute_pi_star(y, pi, mu, s2):
     n, N = len(pi), len(y)
     pi_star = np.zeros(n)
     for i in range(n):
-        # for k in range(N):
-        #     pi_star[i] += rho(y[k], i, pi, mu, s2)
-        # # print(v_rho(y, i=i, pi=pi, mu=mu, s2=s2))
-        # pi_star[i] /= N
         pi_star[i] = np.mean(rho(y, i=i, pi=pi, mu=mu, s2=s2))
 
     return pi_star
@@ -30,15 +24,8 @@ def compute_mu_star(y, pi, mu, s2):
     n, N = len(pi), len(y)
     mu_star = np.zeros(n)
     for i in range(n):
-        # sum1 = 0.
-        # for k in range(N):
-        #     sum1 += rho(y[k], i, pi, mu, s2)*y[k]
-        # rho_y = v_rho(y, i=i, pi=pi, mu=mu, s2=s2)
         rho_y = rho(y, i, pi, mu, s2)
         sum1 = np.vdot(rho_y, y)
-        # sum2 = 0.
-        # for k in range(N):
-        #     sum2 += rho(y[k], i, pi, mu, s2)
         sum2 = np.sum(rho_y)
         mu_star[i] = sum1/sum2
 
@@ -48,14 +35,8 @@ def compute_s2_star(y, pi, mu, s2, mu_star):
     n, N = len(pi), len(y)
     s2_star = np.zeros(n)
     for i in range(n):
-        # sum1 = 0.
-        # for k in range(N):
-        #     sum1 += rho(y[k], i, pi, mu, s2)*(y[k] - mu_star[i])**2
         rho_y = rho(y, i, pi, mu, s2)
         sum1 = np.vdot(rho_y, (y-mu_star[i])**2)
-        # sum2 = 0.
-        # for k in range(N):
-        #     sum2 += rho(y[k], i, pi, mu, s2)
         sum2 = np.sum(rho_y)
         s2_star[i] = sum1/sum2
 
@@ -76,7 +57,6 @@ def em():
         for i in range(int(line.strip('\n'))):
             y.append(value)
         value+=0.004
-    # y=.582+.004*np.array(range(29))
     y = np.array(y)
 
     print('\ny :\n{}'.format(y))
