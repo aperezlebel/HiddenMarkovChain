@@ -58,10 +58,19 @@ def em():
 
     file = open('crabe.txt')
 
-    y=.582+.004*np.array(range(29))
+    # Building y vector while reading file
+    y = []
+    value = 0.582
+    for line in file:
+        for i in range(int(line.strip('\n'))):
+            y.append(value)
+        value+=0.004
+    # y=.582+.004*np.array(range(29))
+    y = np.array(y)
+
     print('\ny :\n{}'.format(y))
     N = len(y)
-    N_iter=1000
+    N_iter=100
     theta=np.zeros((5, N+1))
 
     print('\npi :\n{}'.format(pi0))
