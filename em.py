@@ -39,10 +39,11 @@ def compute_s2_star(y, pi, mu, s2, mu_star):
 
     return s2_star
 
-def em():
-    pi=np.array([1./4, 3./4])
-    mu=np.array([.57, .67])
-    s2=np.array([1./10000, 1./10000])
+def em(pi=[], mu=[], s2=[]):
+    if pi == [] or mu == [] or s2 == []:
+        pi=np.array([1./4, 3./4])
+        mu=np.array([.57, .67])
+        s2=np.array([1./10000, 1./10000])
 
     y = read_y('crabe.txt')
 
