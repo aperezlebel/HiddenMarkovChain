@@ -1,4 +1,5 @@
 import numpy as np
+from plot_hist import read_y
 
 def normale(y, m, s2):
     return np.exp(-(y-m)**2/(2*s2))/np.sqrt(2*np.pi*s2)
@@ -48,16 +49,7 @@ def em():
     mu=np.array([.57, .67])
     s2=np.array([1./10000, 1./10000])
 
-    file = open('crabe.txt')
-
-    # Building y vector while reading file
-    y = []
-    value = 0.582
-    for line in file:
-        for i in range(int(line.strip('\n'))):
-            y.append(value)
-        value+=0.004
-    y = np.array(y)
+    y = read_y('crabe.txt')
 
     print('\ny :\n{}'.format(y))
     N = len(y)
@@ -78,7 +70,7 @@ def em():
         mu = mu_star
         s2 = s2_star
 
-        if (k+1) % 100 == 0:
+        if (k+1) % (N_iter//10) == 0:
             print('\t'+str(k+1))
 
     print('\npi :\n{}'.format(pi_star))
