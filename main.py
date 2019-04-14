@@ -7,6 +7,10 @@ pi0=np.array([1./4, 1/2, 3./4])
 mu0=np.array([.57, .6, .67])
 s20=np.array([1./10000, 1./10000, 1./10000])
 
+
+# loi empirique
+plot_hist('crabe.txt')
+
 # 2 populations
 pi, mu, s2 = em()
 plot_hist('crabe.txt', mu, s2, pi)

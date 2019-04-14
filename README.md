@@ -28,4 +28,4 @@ It also plots the results under the hypothesis of 3 initial populations.
 
 ## Resource
 
-This work has been carried out following the subject.pdf file, proposed by the ENPC school. Please see more details in it.
+This work has been carried out following the subject.pdf file, proposed by the ENPC school. For further information, please check it out.
