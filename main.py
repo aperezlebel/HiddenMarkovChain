@@ -3,7 +3,7 @@ from plot_hist import plot_hist
 from em import em
 
 
-pi0=np.array([1./4, 1/2, 3./4])
+pi0=np.array([1./3, 1/3, 1./3])
 mu0=np.array([.57, .6, .67])
 s20=np.array([1./10000, 1./10000, 1./10000])
 
