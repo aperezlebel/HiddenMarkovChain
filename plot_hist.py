@@ -2,6 +2,8 @@ from matplotlib import pyplot as plt
 from scipy import stats, signal
 import numpy as np
 from math import floor
+from scipy.integrate import quad    
+import numpy as np
 
 def gaussian(y, mu, s2, pi=1):
     return pi*np.exp(-(y-mu)**2/(2*s2))/np.sqrt(2*np.pi*s2)
@@ -26,6 +28,25 @@ def get_freqs(file_name):
         freqs.append(int(line.strip('\n')))
     data_crabe.close()
     return np.array(freqs)
+
+def get_theoretical_frequencies(gaussians, Mu, Sigma2, Pi):
+
+    def function(x): 
+        s = 0.
+        for i in range(len(Mu)):
+            s += Pi[i]*gaussian(x, Mu[i], Sigma2[i])
+        return s
+    
+    frequencies = []
+    xmin = 0.580
+    for i in range(29):
+        xmax = xmin + 0.004
+        res, err = quad(function, xmin, xmax)
+        frequencies.append(res*1000)
+        xmin = xmax
+
+    return frequencies
+
 
 def plot_hist(fichier, Mu = [], S2 = [], Pi = []):
     '''
@@ -52,16 +73,17 @@ def plot_hist(fichier, Mu = [], S2 = [], Pi = []):
 
     assert(len(Mu) == len(S2) and len(Mu) == len(Pi))
     gaussians = []
+    gaussians_chi_square = []
     tirages = []
     for i in range(len(Mu)):
         gaussians.append(v_gaussian(X, Mu[i], S2[i], Pi[i]))
-        tirages = np.concatenate((tirages, np.random.randn(floor(1000*Pi[i])) * S2[i] + Mu[i]), axis=None)
+        gaussians_chi_square.append(v_gaussian(X_chi2, Mu[i], S2[i], Pi[i]))
         plt.plot(X, gaussians[-1], label='Gaussian population '+str(i+1))
 
     if len(gaussians) > 0:
-        tirages = np.concatenate((tirages, np.random.normal(Mu[-1], S2[-1])), axis=None)
         plt.plot(X, np.sum(gaussians, axis=0), label='Sum of all gaussians', linewidth=2, color='b')
-        chisq, p_value = stats.chisquare(y, tirages)
+        real_frequencies = get_theoretical_frequencies(gaussians_chi_square, Mu, S2, Pi)
+        chisq, p_value = stats.chisquare(freqs, real_frequencies)
         print("Test du Chi2 : Statistic=" + str(chisq) + ", p-value=" + str(p_value))
 
     plt.ylabel('Probability')

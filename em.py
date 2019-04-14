@@ -47,7 +47,7 @@ def em(pi=[], mu=[], s2=[]):
 
     y = read_y('crabe.txt')
 
-    print('\ny :\n{}'.format(y))
+    # print('\ny :\n{}'.format(y))
     N = len(y)
     N_iter=1000
     theta=np.zeros((5, N+1))
