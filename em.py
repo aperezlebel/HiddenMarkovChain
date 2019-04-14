@@ -39,15 +39,9 @@ def compute_s2_star(y, pi, mu, s2, mu_star):
 
     return s2_star
 
-def em(pi=[], mu=[], s2=[]):
-    if pi == [] or mu == [] or s2 == []:
-        pi=np.array([1./4, 3./4])
-        mu=np.array([.57, .67])
-        s2=np.array([1./10000, 1./10000])
-
+def em(pi, mu, s2):
     y = read_y('crabe.txt')
 
-    # print('\ny :\n{}'.format(y))
     N = len(y)
     N_iter=1000
     theta=np.zeros((5, N+1))
@@ -76,4 +70,7 @@ def em(pi=[], mu=[], s2=[]):
     return pi, mu, s2
 
 if __name__ == '__main__':
-    em()
+    pi0=np.array([1./4, 3./4])
+    mu0=np.array([.57, .67])
+    s20=np.array([1./10000, 1./10000])
+    em(pi0, mu0, s20)
